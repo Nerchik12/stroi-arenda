@@ -62,7 +62,7 @@
                                 </small>
                             </div>
                             <div class="price-section">
-                                <div class="price">{{ number_format($product->price, 0, '', ' ') }} ₽</div>
+                                <div class="price">{{ number_format($product->price, 0, '', ' ') }} ₽/день</div>
                                 @if($product->in_stock > 0)
                                 <div class="actions">
                                     <button class="btn btn-cart-sm" onclick="event.stopPropagation(); document.getElementById('cart-form-{{ $product->id }}').submit();">
@@ -71,6 +71,7 @@
                                     <form id="cart-form-{{ $product->id }}" method="POST" action="{{ route('add_buscket') }}" class="d-none">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $product->id }}">
+                                        <input type="hidden" name="rental_days" value="1">
                                     </form>
                                 </div>
                                 @else
@@ -153,7 +154,7 @@
 <style>
 /* Баннер */
 .hero-banner {
-    background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+    background: linear-gradient(135deg, #1b2838 0%, #2a1b38 100%);
     padding: 80px 0;
     position: relative;
     overflow: hidden;
@@ -181,7 +182,7 @@
 .banner-badge {
     display: inline-block;
     background: #fff;
-    color: #8e44ad;
+    color: #2c3e50;
     padding: 0.5rem 1rem;
     border-radius: 50px;
     font-weight: 700;
@@ -210,7 +211,7 @@
 }
 
 .banner-buttons .btn-primary {
-    background: linear-gradient(135deg, #a569bd, #9b59b6) !important;
+    background: linear-gradient(135deg, #9b59b6, #8e44ad) !important;
     border: 2px solid transparent !important;
     font-weight: 700 !important;
     padding: 1rem 2rem !important;
@@ -220,7 +221,7 @@
 .banner-buttons .btn-primary:hover {
     background: #fff !important;
     border-color: #fff !important;
-    color: #a569bd !important;
+    color: #9b59b6 !important;
 }
 
 .banner-buttons .btn-outline-light {
@@ -233,7 +234,7 @@
 
 .banner-buttons .btn-outline-light:hover {
     background: #fff !important;
-    color: #a569bd !important;
+    color: #9b59b6 !important;
 }
 
 /* Заголовки секций */
@@ -270,7 +271,7 @@
 
 .product-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 12px 35px rgba(142, 68, 173, 0.2);
+    box-shadow: 0 12px 35px rgba(155, 89, 182, 0.2);
 }
 
 .product-image-wrapper {
@@ -298,7 +299,7 @@
     position: absolute;
     top: 10px;
     left: 10px;
-    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
     color: #fff;
     padding: 0.4rem 0.75rem;
     border-radius: 6px;
@@ -331,7 +332,7 @@
 
 .category-label {
     font-size: 0.75rem;
-    color: #8e44ad;
+    color: #2c3e50;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -365,13 +366,13 @@
 .price {
     font-size: 1.25rem;
     font-weight: 800;
-    color: #8e44ad;
+    color: #9b59b6;
 }
 
 .btn-cart-sm {
     width: 36px;
     height: 36px;
-    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
     border: none;
     border-radius: 8px;
     display: flex;
@@ -383,7 +384,7 @@
 
 .btn-cart-sm:hover {
     transform: scale(1.1);
-    box-shadow: 0 4px 15px rgba(142, 68, 173, 0.4);
+    box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
 }
 
 .btn-not-available {
@@ -410,14 +411,14 @@
 
 .feature-box:hover {
     transform: translateY(-10px);
-    box-shadow: 0 12px 35px rgba(142, 68, 173, 0.15);
+    box-shadow: 0 12px 35px rgba(44, 62, 80, 0.1);
 }
 
 .feature-icon {
     width: 80px;
     height: 80px;
     margin: 0 auto 1rem;
-    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
     border-radius: 50%;
     display: flex;
     align-items: center;

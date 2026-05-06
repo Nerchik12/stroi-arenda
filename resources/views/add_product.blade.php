@@ -49,10 +49,10 @@
 
                         <!-- Цена и изображение -->
                         <div class="col-md-6">
-                            <label for="price" class="form-label">Цена (₽) <span class="text-danger">*</span></label>
+                            <label for="price" class="form-label">Цена аренды (₽/день) <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="price" name="price" placeholder="Например: 4999" required>
-                                <span class="input-group-text">₽</span>
+                                <span class="input-group-text">₽/день</span>
                             </div>
                             <small class="text-muted">Введите сумму вручную</small>
                             <div class="invalid-feedback">Введите корректную цену</div>

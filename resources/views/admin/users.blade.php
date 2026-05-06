@@ -42,7 +42,7 @@
                             <span class="badge badge-blue">Пользователь</span>
                         @endif
                     </td>
-                    <td>{{ $user->created_at->format('d.m.Y H:i') }}</td>
+                    <td>{{ date('d.m.Y H:i', strtotime($user->created_at)) }}</td>
                     <td>
                         <div class="d-flex gap-2">
                             @if($user->id !== auth()->id())

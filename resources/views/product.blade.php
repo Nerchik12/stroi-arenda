@@ -61,7 +61,7 @@
 
                     <!-- Цена -->
                     <div class="price-section mb-4">
-                        <div class="price">{{ number_format($product[0]->price, 0, '', ' ') }} ₽</div>
+                        <div class="price">{{ number_format($product[0]->price, 0, '', ' ') }} ₽/день</div>
                     </div>
 
                     <!-- Характеристики -->
@@ -104,14 +104,34 @@
                             <small class="text-muted">Доступно: {{ $product[0]->in_stock }} шт.</small>
                         </div>
 
+                        <div class="mb-4">
+                            <label class="form-label">СРОК АРЕНДЫ (ДНЕЙ):</label>
+                            <div class="quantity-controls">
+                                <button type="button" class="quantity-btn" onclick="changeDays(-1)">
+                                    <i class="bi bi-dash"></i>
+                                </button>
+                                <input type="number"
+                                       class="quantity-input"
+                                       id="rentalDays"
+                                       value="1"
+                                       min="1"
+                                       step="1">
+                                <button type="button" class="quantity-btn" onclick="changeDays(1)">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+                            <small class="text-muted">Минимум: 1 день</small>
+                        </div>
+
                         <div class="d-grid gap-3">
                             @if($product[0]->in_stock > 0)
                                 <form method="POST" action="{{ route('add_buscket') }}">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $product[0]->id }}">
                                     <input type="hidden" name="quantity" id="quantityValue" value="1">
+                                    <input type="hidden" name="rental_days" id="rentalDaysValue" value="1">
                                     <button type="submit" class="btn btn-primary btn-lg">
-                                        <i class="bi bi-cart-plus me-2"></i>ДОБАВИТЬ В КОРЗИНУ
+                                        <i class="bi bi-calendar2-check me-2"></i>ОФОРМИТЬ АРЕНДУ
                                     </button>
                                 </form>
                             @else
@@ -314,6 +334,20 @@ function changeQuantity(change) {
     document.getElementById('quantityValue').value = value;
 }
 
+function changeDays(change) {
+    const input = document.getElementById('rentalDays');
+    if (!input) return;
+    let value = parseInt(input.value);
+    if (isNaN(value)) value = 1;
+
+    value += change;
+    if (value < 1) value = 1;
+
+    input.value = value;
+    const hidden = document.getElementById('rentalDaysValue');
+    if (hidden) hidden.value = value;
+}
+
 // Обновляем quantityValue при изменении input
 const quantityInput = document.getElementById('quantity');
 if (quantityInput) {
@@ -338,6 +372,26 @@ if (quantityInput) {
 
         this.value = value;
         document.getElementById('quantityValue').value = value;
+    });
+}
+
+// Обновляем rentalDaysValue при изменении input
+const rentalDaysInput = document.getElementById('rentalDays');
+if (rentalDaysInput) {
+    rentalDaysInput.addEventListener('input', function() {
+        let value = parseInt(this.value);
+        if (isNaN(value) || value < 1) value = 1;
+        this.value = value;
+        const hidden = document.getElementById('rentalDaysValue');
+        if (hidden) hidden.value = value;
+    });
+
+    rentalDaysInput.addEventListener('change', function() {
+        let value = parseInt(this.value);
+        if (isNaN(value) || value < 1) value = 1;
+        this.value = value;
+        const hidden = document.getElementById('rentalDaysValue');
+        if (hidden) hidden.value = value;
     });
 }
 

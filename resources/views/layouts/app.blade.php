@@ -56,8 +56,8 @@
     }
 
     /* === ФИКС ДЛЯ ХЕДЕРА - перебиваем public/css/style.css === */
-    header.site-header {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important;
+        header.site-header {
+        background: linear-gradient(135deg, #1b2838 0%, #162032 100%) !important;
         padding: 0.75rem 0 !important;
         box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2) !important;
         position: sticky !important;
@@ -86,12 +86,12 @@
     header.site-header .logo-icon-box {
         width: 48px !important;
         height: 48px !important;
-        background: linear-gradient(135deg, #8e44ad, #9b59b6) !important;
+        background: linear-gradient(135deg, #3498db, #2980b9) !important;
         border-radius: 10px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        box-shadow: 0 4px 12px rgba(142, 68, 173, 0.5) !important;
+        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.5) !important;
         flex-shrink: 0 !important;
     }
 
@@ -179,7 +179,7 @@
     }
 
     header.site-header .nav-link.active {
-        background: linear-gradient(135deg, #8e44ad, #9b59b6) !important;
+        background: linear-gradient(135deg, #9b59b6, #8e44ad) !important;
         color: #fff !important;
     }
 
@@ -220,7 +220,7 @@
         position: absolute !important;
         top: -5px !important;
         right: -5px !important;
-        background: #8e44ad !important;
+        background: #9b59b6 !important;
         color: #fff !important;
         font-size: 11px !important;
         font-weight: 700 !important;
@@ -259,14 +259,14 @@
     }
 
     header.site-header .btn-register {
-        background: linear-gradient(135deg, #8e44ad, #9b59b6) !important;
+        background: linear-gradient(135deg, #9b59b6, #8e44ad) !important;
         color: #fff !important;
-        box-shadow: 0 4px 12px rgba(142, 68, 173, 0.4) !important;
+        box-shadow: 0 4px 12px rgba(155, 89, 182, 0.4) !important;
     }
 
     header.site-header .btn-register:hover {
         transform: translateY(-2px) !important;
-        box-shadow: 0 6px 18px rgba(142, 68, 173, 0.5) !important;
+        box-shadow: 0 6px 18px rgba(155, 89, 182, 0.5) !important;
         color: #fff !important;
     }
 

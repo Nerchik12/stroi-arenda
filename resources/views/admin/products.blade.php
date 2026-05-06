@@ -40,7 +40,7 @@
                         </div>
                     </td>
                     <td>{{ $product->category_name }}</td>
-                    <td><strong>{{ number_format($product->price, 0, '', ' ') }} ₽</strong></td>
+                    <td><strong>{{ number_format($product->price, 0, '', ' ') }} ₽/день</strong></td>
                     <td>
                         @if($product->in_stock > 0)
                             <span class="badge badge-green">{{ $product->in_stock }} шт.</span>

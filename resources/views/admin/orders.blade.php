@@ -25,8 +25,8 @@
                 <tr>
                     <td><strong>#{{ $order->id }}</strong></td>
                     <td>
-                        <div>{{ $order->user->name ?? 'Неизвестный' }}</div>
-                        <small class="text-muted">{{ $order->user->email ?? '' }}</small>
+                        <div>{{ $order->user_name ?? 'Неизвестный' }}</div>
+                        <small class="text-muted">{{ $order->user_email ?? '' }}</small>
                     </td>
                     <td><strong>{{ number_format($order->total_amount, 0, '', ' ') }} ₽</strong></td>
                     <td>
@@ -40,7 +40,7 @@
                             </select>
                         </form>
                     </td>
-                    <td>{{ $order->created_at->format('d.m.Y H:i') }}</td>
+                    <td>{{ date('d.m.Y H:i', strtotime($order->created_at)) }}</td>
                     <td>
                         <a href="{{ route('orders') }}" class="btn btn-sm btn-outline-purple" target="_blank">
                             <i class="bi bi-eye"></i> Просмотр

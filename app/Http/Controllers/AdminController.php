@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Order;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,20 +14,23 @@ class AdminController extends Controller
     public function index()
     {
         // Статистика
-        $totalUsers = User::count();
-        $totalAdmins = User::where('role', 'admin')->count();
-        $totalOrders = Order::count();
-        $totalProducts = Product::count();
-        $totalRevenue = Order::sum('total_amount');
+        $totalUsers = DB::table('users')->count();
+        $totalAdmins = DB::table('users')->where('role', 'admin')->count();
+        $totalOrders = DB::table('orders')->count();
+        $totalProducts = DB::table('products')->count();
+        $totalRevenue = DB::table('orders')->sum('total_amount');
 
         // Последние заказы
-        $recentOrders = Order::with('user')
-            ->orderBy('created_at', 'desc')
+        $recentOrders = DB::table('orders')
+            ->join('users', 'orders.user_id', '=', 'users.id')
+            ->select('orders.*', 'users.name as user_name')
+            ->orderBy('orders.created_at', 'desc')
             ->limit(10)
             ->get();
 
         // Последние пользователи
-        $recentUsers = User::orderBy('created_at', 'desc')
+        $recentUsers = DB::table('users')
+            ->orderBy('created_at', 'desc')
             ->limit(5)
             ->get();
 
@@ -50,7 +50,9 @@ class AdminController extends Controller
      */
     public function users()
     {
-        $users = User::orderBy('created_at', 'desc')->paginate(20);
+        $users = DB::table('users')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
         return view('admin.users', compact('users'));
     }
 
@@ -59,13 +61,17 @@ class AdminController extends Controller
      */
     public function makeAdmin($id)
     {
-        $user = User::findOrFail($id);
+        $user = DB::table('users')->where('id', $id)->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Пользователь не найден.');
+        }
 
         if ($user->id === auth()->id()) {
             return redirect()->back()->with('error', 'Нельзя изменить свою собственную роль.');
         }
 
-        $user->update(['role' => 'admin']);
+        DB::table('users')->where('id', $id)->update(['role' => 'admin']);
 
         return redirect()->back()->with('success', "Пользователь {$user->name} теперь администратор.");
     }
@@ -75,21 +81,47 @@ class AdminController extends Controller
      */
     public function makeUser($id)
     {
-        $user = User::findOrFail($id);
+        $user = DB::table('users')->where('id', $id)->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Пользователь не найден.');
+        }
 
         if ($user->id === auth()->id()) {
             return redirect()->back()->with('error', 'Нельзя изменить свою собственную роль.');
         }
 
         // Проверка: должен остаться хотя бы один админ
-        $adminCount = User::where('role', 'admin')->count();
+        $adminCount = DB::table('users')->where('role', 'admin')->count();
         if ($adminCount <= 1) {
             return redirect()->back()->with('error', 'Должен остаться хотя бы один администратор.');
         }
 
-        $user->update(['role' => 'user']);
+        DB::table('users')->where('id', $id)->update(['role' => 'user']);
 
         return redirect()->back()->with('success', "Пользователь {$user->name} теперь обычный пользователь.");
+    }
+
+    /**
+     * Сбросить пароль пользователя
+     */
+    public function resetPassword($id)
+    {
+        $user = DB::table('users')->where('id', $id)->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Пользователь не найден.');
+        }
+
+        if ($user->id === auth()->id()) {
+            return redirect()->back()->with('error', 'Нельзя сбросить свой собственный пароль.');
+        }
+
+        // Устанавливаем временный пароль: admin123
+        $temporaryPassword = 'admin123';
+        DB::table('users')->where('id', $id)->update(['password' => Hash::make($temporaryPassword)]);
+
+        return redirect()->back()->with('success', "Пароль пользователя {$user->name} сброшен. Временный пароль: {$temporaryPassword}");
     }
 
     /**
@@ -97,7 +129,11 @@ class AdminController extends Controller
      */
     public function deleteUser($id)
     {
-        $user = User::findOrFail($id);
+        $user = DB::table('users')->where('id', $id)->first();
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'Пользователь не найден.');
+        }
 
         if ($user->id === auth()->id()) {
             return redirect()->back()->with('error', 'Нельзя удалить самого себя.');
@@ -114,7 +150,7 @@ class AdminController extends Controller
             DB::table('feedback')->where('user_id', $id)->delete();
 
             // Удаляем пользователя
-            $user->delete();
+            DB::table('users')->where('id', $id)->delete();
 
             // Включаем внешние ключи обратно
             DB::statement('SET FOREIGN_KEY_CHECKS = 1');
@@ -123,7 +159,7 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             // Включаем внешние ключи обратно в случае ошибки
             DB::statement('SET FOREIGN_KEY_CHECKS = 1');
-            
+
             return redirect()->back()->with('error', 'Ошибка при удалении: ' . $e->getMessage());
         }
     }
@@ -164,8 +200,10 @@ class AdminController extends Controller
      */
     public function orders()
     {
-        $orders = Order::with('user')
-            ->orderBy('created_at', 'desc')
+        $orders = DB::table('orders')
+            ->join('users', 'orders.user_id', '=', 'users.id')
+            ->select('orders.*', 'users.name as user_name', 'users.email as user_email')
+            ->orderBy('orders.created_at', 'desc')
             ->paginate(20);
 
         return view('admin.orders', compact('orders'));
@@ -176,13 +214,16 @@ class AdminController extends Controller
      */
     public function updateOrderStatus(Request $request, $id)
     {
-        $order = Order::findOrFail($id);
+        $order = DB::table('orders')->where('id', $id)->first();
+
+        if (!$order) {
+            return redirect()->back()->with('error', 'Заказ не найден.');
+        }
 
         $request->validate([
             'status' => 'required|in:active,pending,completed,cancelled',
         ]);
 
-        // Обновляем без использования updated_at (так как столбца нет в БД)
         DB::table('orders')
             ->where('id', $id)
             ->update(['status' => $request->status]);
@@ -210,7 +251,7 @@ class AdminController extends Controller
     public function editProduct($id)
     {
         $product = DB::table('products')->where('id', $id)->first();
-        
+
         if (!$product) {
             return redirect()->route('admin.products')->with('error', 'Товар не найден.');
         }
@@ -242,7 +283,7 @@ class AdminController extends Controller
 
         // Получаем текущий товар
         $product = DB::table('products')->where('id', $id)->first();
-        
+
         if (!$product) {
             return redirect()->back()->with('error', 'Товар не найден.');
         }

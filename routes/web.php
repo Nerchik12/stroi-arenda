@@ -41,6 +41,7 @@ Route::get('/filter', [App\Http\Controllers\CatalogController::class, 'filter'])
 Route::get('/sendReviews', [App\Http\Controllers\ReviewController::class, 'sendReviews'])->name('sendReviews');
 Route::post('/sendReview', [App\Http\Controllers\ReviewController::class, 'sendReview'])->name('sendReview');
 Route::post('/update-quantity', [App\Http\Controllers\CartController::class, 'updateQuantity'])->name('update.quantity');
+Route::post('/update-rental-days', [App\Http\Controllers\CartController::class, 'updateRentalDays'])->name('update.rental_days');
 
 // API для корзины
 Route::get('/api/cart/count', [App\Http\Controllers\ApiCartController::class, 'count']);
@@ -56,6 +57,7 @@ Route::middleware(['auth', 'is.admin'])->prefix('admin')->name('admin.')->group(
     Route::get('/users', [App\Http\Controllers\AdminController::class, 'users'])->name('users');
     Route::post('/users/{id}/make-admin', [App\Http\Controllers\AdminController::class, 'makeAdmin'])->name('users.make-admin');
     Route::post('/users/{id}/make-user', [App\Http\Controllers\AdminController::class, 'makeUser'])->name('users.make-user');
+    Route::post('/users/{id}/reset-password', [App\Http\Controllers\AdminController::class, 'resetPassword'])->name('users.reset-password');
     Route::delete('/users/{id}', [App\Http\Controllers\AdminController::class, 'deleteUser'])->name('users.delete');
 
     // Отзывы

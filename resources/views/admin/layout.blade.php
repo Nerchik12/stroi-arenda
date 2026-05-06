@@ -14,9 +14,9 @@
 
     <style>
         :root {
-            --primary-color: #8e44ad;
-            --primary-light: #9b59b6;
-            --primary-dark: #6c3483;
+            --primary-color: #27ae60;
+            --primary-light: #2ecc71;
+            --primary-dark: #1b5e20;
             --sidebar-width: 280px;
         }
 
@@ -77,9 +77,9 @@
         }
 
         .sidebar-item.active {
-            background: linear-gradient(135deg, rgba(142, 68, 173, 0.3), rgba(155, 89, 182, 0.2));
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(41, 128, 185, 0.2));
             color: #fff;
-            border-left-color: var(--primary-color);
+            border-left-color: #3498db;
         }
 
         .sidebar-item i {
@@ -128,7 +128,7 @@
             position: relative;
             width: 42px;
             height: 42px;
-            background: rgba(142, 68, 173, 0.1);
+            background: rgba(52, 152, 219, 0.1);
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -138,13 +138,13 @@
         }
 
         .admin-cart-btn:hover {
-            background: rgba(142, 68, 173, 0.2);
+            background: rgba(52, 152, 219, 0.2);
             transform: translateY(-2px);
         }
 
         .admin-cart-btn i {
             font-size: 20px;
-            color: #8e44ad;
+            color: #3498db;
         }
 
         .admin-cart-badge {
@@ -187,7 +187,7 @@
         .admin-user-avatar {
             width: 35px;
             height: 35px;
-            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -249,7 +249,7 @@
         }
 
         .stat-icon.purple {
-            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
             color: #fff;
         }
 
@@ -290,7 +290,7 @@
         }
 
         .admin-table thead {
-            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
             color: #fff;
         }
 
@@ -314,30 +314,30 @@
 
         /* Buttons */
         .btn-purple {
-            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
             color: #fff;
             border: none;
         }
 
         .btn-purple:hover {
-            background: linear-gradient(135deg, #6c3483, #8e44ad);
+            background: linear-gradient(135deg, #1b5e20, #27ae60);
             color: #fff;
         }
 
         .btn-outline-purple {
             background: transparent;
-            border: 2px solid #8e44ad;
-            color: #8e44ad;
+            border: 2px solid #27ae60;
+            color: #27ae60;
         }
 
         .btn-outline-purple:hover {
-            background: #8e44ad;
+            background: #27ae60;
             color: #fff;
         }
 
         /* Badges */
         .badge-purple {
-            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
             color: #fff;
         }
 
@@ -409,7 +409,7 @@
                 <span>Все товары</span>
             </a>
             <hr class="mx-3 my-2" style="border-color: rgba(255,255,255,0.1);">
-            <a href="{{ route('add_product') }}" class="sidebar-item {{ request()->routeIs('add_product') ? 'active' : '' }}" style="background: rgba(142, 68, 173, 0.2); border-left-color: #8e44ad;">
+            <a href="{{ route('add_product') }}" class="sidebar-item {{ request()->routeIs('add_product') ? 'active' : '' }}" style="background: rgba(39, 174, 96, 0.2); border-left-color: #27ae60;">
                 <i class="bi bi-plus-circle"></i>
                 <span>Добавить товар</span>
             </a>

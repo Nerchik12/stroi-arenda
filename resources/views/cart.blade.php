@@ -65,7 +65,7 @@
                                             @if($item->count > 1)
                                                 <form method="POST" action="{{ route('update.quantity') }}" class="d-inline">
                                                     @csrf
-                                                    <input type="hidden" name="id" value="{{ $item->product_id }}">
+                                                    <input type="hidden" name="cart_id" value="{{ $item->cart_id }}">
                                                     <input type="hidden" name="count" value="{{ $item->count - 1 }}">
                                                     <button type="submit" class="quantity-btn-modern">
                                                         <i class="bi bi-dash"></i>
@@ -74,7 +74,7 @@
                                             @else
                                                 <form method="POST" action="{{ route('remove') }}" class="d-inline">
                                                     @csrf
-                                                    <input type="hidden" name="id" value="{{ $item->product_id }}">
+                                                    <input type="hidden" name="cart_id" value="{{ $item->cart_id }}">
                                                     <button type="submit" class="quantity-btn-modern btn-remove-modern" title="Удалить товар">
                                                         <i class="bi bi-trash"></i>
                                                     </button>
@@ -85,21 +85,45 @@
 
                                             <form method="POST" action="{{ route('update.quantity') }}" class="d-inline">
                                                 @csrf
-                                                <input type="hidden" name="id" value="{{ $item->product_id }}">
+                                                <input type="hidden" name="cart_id" value="{{ $item->cart_id }}">
                                                 <input type="hidden" name="count" value="{{ $item->count + 1 }}">
                                                 <button type="submit" class="quantity-btn-modern" {{ $item->count >= $item->in_stock ? 'disabled' : '' }}>
                                                     <i class="bi bi-plus"></i>
                                                 </button>
                                             </form>
                                         </div>
+                                        <div class="mt-2 small text-muted">
+                                            <div class="d-flex align-items-center gap-2 flex-wrap">
+                                                <span>Срок:</span>
+                                                <form method="POST" action="{{ route('update.rental_days') }}" class="d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="cart_id" value="{{ $item->cart_id }}">
+                                                    <input type="hidden" name="days" value="{{ max(1, (int)($item->rental_days ?? 1) - 1) }}">
+                                                    <button type="submit" class="quantity-btn-modern" {{ (int)($item->rental_days ?? 1) <= 1 ? 'disabled' : '' }}>
+                                                        <i class="bi bi-dash"></i>
+                                                    </button>
+                                                </form>
+                                                <span class="quantity-display">{{ max(1, (int)($item->rental_days ?? 1)) }} дн.</span>
+                                                <form method="POST" action="{{ route('update.rental_days') }}" class="d-inline">
+                                                    @csrf
+                                                    <input type="hidden" name="cart_id" value="{{ $item->cart_id }}">
+                                                    <input type="hidden" name="days" value="{{ max(1, (int)($item->rental_days ?? 1) + 1) }}">
+                                                    <button type="submit" class="quantity-btn-modern">
+                                                        <i class="bi bi-plus"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- Цена -->
                                     <div class="col-md-3 mt-3 mt-md-0 text-md-end">
                                         <div class="cart-item-total">
-                                            <div class="total-price">{{ number_format($item->price * $item->count, 0, '', ' ') }} ₽</div>
+                                            <div class="total-price">{{ number_format($item->price * $item->count * max(1, (int)($item->rental_days ?? 1)), 0, '', ' ') }} ₽</div>
                                             @if($item->count > 1)
-                                                <small class="text-muted">{{ number_format($item->price, 0, '', ' ') }} ₽ × {{ $item->count }}</small>
+                                                <small class="text-muted">{{ number_format($item->price, 0, '', ' ') }} ₽/день × {{ $item->count }} шт × {{ max(1, (int)($item->rental_days ?? 1)) }} дн.</small>
+                                            @else
+                                                <small class="text-muted">{{ number_format($item->price, 0, '', ' ') }} ₽/день × {{ max(1, (int)($item->rental_days ?? 1)) }} дн.</small>
                                             @endif
                                         </div>
                                     </div>
@@ -134,7 +158,8 @@
                                 $subtotal = 0;
                                 $totalItems = 0;
                                 foreach($cart as $item) {
-                                    $subtotal += $item->price * $item->count;
+                                    $days = max(1, (int)($item->rental_days ?? 1));
+                                    $subtotal += $item->price * $item->count * $days;
                                     $totalItems += $item->count;
                                 }
                             @endphp
@@ -160,7 +185,7 @@
                         <!-- Кнопка оформления -->
                         <div class="summary-footer">
                             <a href="{{ route('add_order') }}" class="btn btn-checkout-modern">
-                                ОФОРМИТЬ ЗАКАЗ
+                                ОФОРМИТЬ АРЕНДУ
                             </a>
                         </div>
 

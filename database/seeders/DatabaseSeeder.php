@@ -3,9 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
@@ -16,34 +14,36 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Создаем администратора
-        User::create([
+        DB::table('users')->insert([
             'name' => 'Администратор',
             'email' => 'admin@stroimaster.ru',
             'password' => bcrypt('admin123'),
             'phone' => '+7 (495) 765-43-21',
             'role' => 'admin',
-            'is_active' => true,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         // Создаем категории
         $categories = [
-            ['name' => 'Инструменты', 'slug' => 'instrumenty', 'icon_class' => 'bi-hammer'],
-            ['name' => 'Стройматериалы', 'slug' => 'stroymaterialy', 'icon_class' => 'bi-bricks'],
-            ['name' => 'Краски', 'slug' => 'kraski', 'icon_class' => 'bi-droplet'],
-            ['name' => 'Отделка', 'slug' => 'otdelka', 'icon_class' => 'bi-house-door'],
-            ['name' => 'Электрика', 'slug' => 'elektrika', 'icon_class' => 'bi-lightning-charge'],
-            ['name' => 'Сантехника', 'slug' => 'santekhnika', 'icon_class' => 'bi-droplet-half'],
-            ['name' => 'Крепёж', 'slug' => 'krepjezh', 'icon_class' => 'bi-screwdriver'],
-            ['name' => 'Сад и огород', 'slug' => 'sad-i-ogorod', 'icon_class' => 'bi-flower1'],
+            ['name' => 'Ручной инструмент', 'slug' => 'ruchnoy-instrument', 'icon_class' => 'bi-hammer'],
+            ['name' => 'Электроинструмент', 'slug' => 'elektroinstrument', 'icon_class' => 'bi-lightning-charge'],
+            ['name' => 'Измерительное оборудование', 'slug' => 'izmeritelnoe-oborudovanie', 'icon_class' => 'bi-rulers'],
+            ['name' => 'Садовая техника', 'slug' => 'sadovaya-tekhnika', 'icon_class' => 'bi-tree'],
+            ['name' => 'Силовое оборудование', 'slug' => 'silovoe-oborudovanie', 'icon_class' => 'bi-battery-charging'],
+            ['name' => 'Строительное оборудование', 'slug' => 'stroitelnoe-oborudovanie', 'icon_class' => 'bi-cone-striped'],
+            ['name' => 'Клининг и уход', 'slug' => 'klining-i-uhod', 'icon_class' => 'bi-bucket'],
         ];
 
         foreach ($categories as $cat) {
-            Category::create([
+            DB::table('categories')->insert([
                 'name' => $cat['name'],
                 'slug' => $cat['slug'],
                 'icon_class' => $cat['icon_class'],
                 'description' => "Категория: {$cat['name']}",
                 'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
 
@@ -51,10 +51,10 @@ class DatabaseSeeder extends Seeder
         $products = [
             [
                 'name' => 'Дрель-шуруповёрт аккумуляторная',
-                'category' => 'Инструменты',
-                'price' => 4999,
-                'old_price' => 5999,
-                'description' => 'Профессиональная дрель-шуруповёрт с двумя аккумуляторами. Мощность 18В, крутящий момент 50 Нм.',
+                'category' => 'Электроинструмент',
+                'price' => 1200,
+                'old_price' => 1600,
+                'description' => 'Профессиональная дрель-шуруповёрт с двумя аккумуляторами. Мощность 18В, крутящий момент 50 Нм. Цена за сутки аренды.',
                 'country' => 'Германия',
                 'model' => 'DX-1800',
                 'year' => 2024,
@@ -63,10 +63,10 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'Перфоратор профессиональный',
-                'category' => 'Инструменты',
-                'price' => 8999,
-                'old_price' => 10999,
-                'description' => 'Мощный перфоратор для тяжелых работ. Энергия удара 3.2 Дж, три режима работы.',
+                'category' => 'Электроинструмент',
+                'price' => 1800,
+                'old_price' => 2400,
+                'description' => 'Мощный перфоратор для тяжёлых работ. Энергия удара 3.2 Дж, три режима работы. Цена за сутки аренды.',
                 'country' => 'Япония',
                 'model' => 'RH-3200',
                 'year' => 2024,
@@ -74,107 +74,107 @@ class DatabaseSeeder extends Seeder
                 'is_new' => true,
             ],
             [
-                'name' => 'Цемент М-500 (50 кг)',
-                'category' => 'Стройматериалы',
-                'price' => 450,
-                'old_price' => null,
-                'description' => 'Высококачественный портландцемент марки М-500. Подходит для всех видов строительных работ.',
+                'name' => 'Лазерный нивелир 360°',
+                'category' => 'Измерительное оборудование',
+                'price' => 1100,
+                'old_price' => 1500,
+                'description' => 'Лазерный нивелир для точной разметки стен, пола и потолка. Цена за сутки аренды.',
                 'country' => 'Россия',
-                'model' => 'ПЦ 500-Д20',
-                'year' => 2024,
-                'in_stock' => 100,
+                'model' => 'LV-360',
+                'year' => 2025,
+                'in_stock' => 30,
                 'is_new' => false,
             ],
             [
-                'name' => 'Кирпич красный полнотелый (1000 шт)',
-                'category' => 'Стройматериалы',
-                'price' => 18500,
-                'old_price' => 20000,
-                'description' => 'Полнотелый керамический кирпич для несущих стен и фундаментов. Марка прочности М-200.',
+                'name' => 'Виброплита 90 кг',
+                'category' => 'Строительное оборудование',
+                'price' => 3500,
+                'old_price' => 4200,
+                'description' => 'Виброплита для уплотнения грунта и щебня. Цена за сутки аренды.',
                 'country' => 'Россия',
-                'model' => 'КР-200',
-                'year' => 2024,
-                'in_stock' => 50,
+                'model' => 'VP-90',
+                'year' => 2025,
+                'in_stock' => 8,
                 'is_new' => false,
             ],
             [
-                'name' => 'Краска интерьерная белая (10 л)',
-                'category' => 'Краски',
-                'price' => 2499,
-                'old_price' => 2999,
-                'description' => 'Моющаяся краска для внутренних работ. Устойчива к влажной уборке, без запаха.',
+                'name' => 'Краскопульт электрический',
+                'category' => 'Электроинструмент',
+                'price' => 900,
+                'old_price' => 1200,
+                'description' => 'Электрический краскопульт для равномерного нанесения лакокрасочных материалов. Цена за сутки аренды.',
                 'country' => 'Финляндия',
-                'model' => 'WF-1000',
+                'model' => 'SP-900',
                 'year' => 2024,
                 'in_stock' => 40,
                 'is_new' => true,
             ],
             [
-                'name' => 'Ламинат дуб натуральный (2.5 м²)',
-                'category' => 'Отделка',
-                'price' => 1899,
-                'old_price' => null,
-                'description' => 'Ламинат 33 класса износостойкости. Влагостойкая пропитка, замковое соединение.',
+                'name' => 'Шлифмашина эксцентриковая',
+                'category' => 'Электроинструмент',
+                'price' => 950,
+                'old_price' => 1300,
+                'description' => 'Эксцентриковая шлифмашина для дерева и металла. Цена за сутки аренды.',
                 'country' => 'Бельгия',
-                'model' => 'Oak-Natural-33',
+                'model' => 'RS-300',
                 'year' => 2024,
-                'in_stock' => 60,
+                'in_stock' => 20,
                 'is_new' => false,
             ],
             [
-                'name' => 'Кабель электрический ВВГнг 3х2.5 (100 м)',
-                'category' => 'Электрика',
-                'price' => 8500,
-                'old_price' => 9500,
-                'description' => 'Медный кабель в негорючей изоляции. Для прокладки в помещениях и на открытом воздухе.',
+                'name' => 'Дизельный генератор 6 кВт',
+                'category' => 'Силовое оборудование',
+                'price' => 4200,
+                'old_price' => 5000,
+                'description' => 'Генератор для питания инструмента и освещения на объекте. Цена за сутки аренды.',
                 'country' => 'Россия',
-                'model' => 'ВВГнг-LS 3х2.5',
-                'year' => 2024,
-                'in_stock' => 30,
+                'model' => 'DG-6000',
+                'year' => 2025,
+                'in_stock' => 10,
                 'is_new' => false,
             ],
             [
-                'name' => 'Смеситель для кухни',
-                'category' => 'Сантехника',
-                'price' => 3499,
-                'old_price' => 4299,
-                'description' => 'Однорычажный смеситель с высоким изливом. Керамический картридж, хромированное покрытие.',
+                'name' => 'Мойка высокого давления',
+                'category' => 'Клининг и уход',
+                'price' => 1400,
+                'old_price' => 1800,
+                'description' => 'Мойка высокого давления для фасадов и уборки техники. Цена за сутки аренды.',
                 'country' => 'Китай',
-                'model' => 'KF-2024',
+                'model' => 'HPW-150',
                 'year' => 2024,
                 'in_stock' => 20,
                 'is_new' => true,
             ],
             [
-                'name' => 'Набор крепежа (200 шт)',
-                'category' => 'Крепёж',
-                'price' => 899,
-                'old_price' => null,
-                'description' => 'Универсальный набор: саморезы, дюбели, шурупы. Органайзер в комплекте.',
+                'name' => 'Лестница-стремянка 7 ступеней',
+                'category' => 'Строительное оборудование',
+                'price' => 700,
+                'old_price' => 950,
+                'description' => 'Алюминиевая стремянка для высотных работ. Цена за сутки аренды.',
                 'country' => 'Польша',
-                'model' => 'Universal-200',
+                'model' => 'Ladder-7',
                 'year' => 2024,
-                'in_stock' => 80,
+                'in_stock' => 30,
                 'is_new' => false,
             ],
             [
-                'name' => 'Газонная трава (1 кг)',
-                'category' => 'Сад и огород',
-                'price' => 650,
-                'old_price' => 799,
-                'description' => 'Смесь трав для создания идеального газона. Быстрорастущая, устойчивая к вытаптыванию.',
-                'country' => 'Нидерланды',
-                'model' => 'GreenLawn-1kg',
+                'name' => 'Кусторез аккумуляторный',
+                'category' => 'Садовая техника',
+                'price' => 1000,
+                'old_price' => 1400,
+                'description' => 'Кусторез для подрезки живых изгородей и кустарников. Цена за сутки аренды.',
+                'country' => 'Китай',
+                'model' => 'HT-20V',
                 'year' => 2024,
-                'in_stock' => 45,
+                'in_stock' => 18,
                 'is_new' => true,
             ],
         ];
 
         foreach ($products as $prod) {
-            $category = Category::where('name', $prod['category'])->first();
-            
-            Product::create([
+            $category = DB::table('categories')->where('name', $prod['category'])->first();
+
+            DB::table('products')->insert([
                 'name' => $prod['name'],
                 'slug' => Str::slug($prod['name']),
                 'description' => $prod['description'],
@@ -192,6 +192,8 @@ class DatabaseSeeder extends Seeder
                 'image' => 'img/products/' . Str::slug($prod['name']) . '.jpg',
                 'rating' => rand(40, 50) / 10,
                 'reviews_count' => rand(0, 20),
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }

@@ -16,19 +16,19 @@
                         <div class="row g-4 mt-5 justify-content-center">
                             <div class="col-4 col-md-3">
                                 <div class="stat-box text-center p-3">
-                                    <h3 class="display-4 fw-bold mb-0" style="color: #8e44ad;">10+</h3>
+                                    <h3 class="display-4 fw-bold mb-0" style="color: #9b59b6;">10+</h3>
                                     <p class="mb-0 text-muted small">лет на рынке</p>
                                 </div>
                             </div>
                             <div class="col-4 col-md-3">
                                 <div class="stat-box text-center p-3">
-                                    <h3 class="display-4 fw-bold mb-0" style="color: #8e44ad;">5000+</h3>
+                                    <h3 class="display-4 fw-bold mb-0" style="color: #9b59b6;">5000+</h3>
                                     <p class="mb-0 text-muted small">клиентов</p>
                                 </div>
                             </div>
                             <div class="col-4 col-md-3">
                                 <div class="stat-box text-center p-3">
-                                    <h3 class="display-4 fw-bold mb-0" style="color: #8e44ad;">10000+</h3>
+                                    <h3 class="display-4 fw-bold mb-0" style="color: #9b59b6;">10000+</h3>
                                     <p class="mb-0 text-muted small">товаров</p>
                                 </div>
                             </div>
@@ -170,7 +170,7 @@
     width: 80px;
     height: 80px;
     margin: 0 auto;
-    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+    background: linear-gradient(135deg, #9b59b6, #5dade2);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -188,14 +188,14 @@
 
 .value-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(142, 68, 173, 0.15);
+    box-shadow: 0 15px 35px rgba(39, 174, 96, 0.15);
 }
 
 .feature-icon-modern {
     width: 80px;
     height: 80px;
     margin: 0 auto;
-    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+    background: linear-gradient(135deg, #9b59b6, #5dade2);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -213,14 +213,14 @@
 
 .feature-card-modern:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(142, 68, 173, 0.15);
+    box-shadow: 0 15px 35px rgba(44, 62, 80, 0.1);
 }
 
 .contact-icon {
     width: 70px;
     height: 70px;
     margin: 0 auto;
-    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+    background: linear-gradient(135deg, #3498db, #2980b9);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -238,7 +238,7 @@
 
 .contact-info-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(142, 68, 173, 0.15);
+    box-shadow: 0 10px 25px rgba(44, 62, 80, 0.1);
 }
 </style>
 @endsection

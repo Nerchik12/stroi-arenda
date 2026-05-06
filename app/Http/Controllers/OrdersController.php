@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class OrdersController extends Controller
 {
@@ -27,7 +29,8 @@ class OrdersController extends Controller
                     'products.name as product_name',
                     'order_cart.quantity',
                     'order_cart.unit_price',
-                    DB::raw('order_cart.quantity * order_cart.unit_price as item_total')
+                    DB::raw('COALESCE(order_cart.rental_days, 1) as rental_days'),
+                    DB::raw('order_cart.quantity * order_cart.unit_price * COALESCE(order_cart.rental_days, 1) as item_total')
                 )
                 ->join('products', 'products.id', '=', 'order_cart.products_id')
                 ->where('order_cart.order_id', $order->id)

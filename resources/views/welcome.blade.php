@@ -40,7 +40,7 @@
                         </a>
                     </div>
                     @php
-                        $filterCategories = ['Инструменты', 'Стройматериалы', 'Краски', 'Отделка', 'Электрика', 'Крепёж', 'Сантехника'];
+                        $filterCategories = ['Ручной инструмент', 'Электроинструмент', 'Измерительное оборудование', 'Садовая техника', 'Силовое оборудование', 'Строительное оборудование', 'Клининг и уход'];
                     @endphp
                     @foreach($filterCategories as $cat)
                     <div class="col-auto">
@@ -57,14 +57,13 @@
                 <div class="row g-4">
                     @php
                         $allCategories = [
-                            ['name' => 'Инструменты', 'icon' => 'bi-hammer', 'color' => '#8e44ad'],
-                            ['name' => 'Стройматериалы', 'icon' => 'bi-bricks', 'color' => '#3498db'],
-                            ['name' => 'Краски', 'icon' => 'bi-droplet', 'color' => '#e74c3c'],
-                            ['name' => 'Отделка', 'icon' => 'bi-house-door', 'color' => '#27ae60'],
-                            ['name' => 'Электрика', 'icon' => 'bi-lightning', 'color' => '#f39c12'],
-                            ['name' => 'Крепёж', 'icon' => 'bi-screwdriver', 'color' => '#9b59b6'],
-                            ['name' => 'Сантехника', 'icon' => 'bi-droplet-half', 'color' => '#1abc9c'],
-                            ['name' => 'Зимние виды', 'icon' => 'bi-snow', 'color' => '#34495e'],
+                            ['name' => 'Ручной инструмент', 'icon' => 'bi-hammer', 'color' => '#e74c3c'],
+                            ['name' => 'Электроинструмент', 'icon' => 'bi-lightning', 'color' => '#3498db'],
+                            ['name' => 'Измерительное оборудование', 'icon' => 'bi-rulers', 'color' => '#9b59b6'],
+                            ['name' => 'Садовая техника', 'icon' => 'bi-tree', 'color' => '#9b59b6'],
+                            ['name' => 'Силовое оборудование', 'icon' => 'bi-battery-charging', 'color' => '#f39c12'],
+                            ['name' => 'Строительное оборудование', 'icon' => 'bi-cone-striped', 'color' => '#e67e22'],
+                            ['name' => 'Клининг и уход', 'icon' => 'bi-bucket', 'color' => '#1abc9c'],
                         ];
                     @endphp
                     @foreach($allCategories as $cat)
@@ -118,7 +117,7 @@
                                         </a>
                                     </h5>
                                     <div class="price-section">
-                                        <div class="price">{{ number_format($product->price, 0, '', ' ') }} ₽</div>
+                                        <div class="price">{{ number_format($product->price, 0, '', ' ') }} ₽/день</div>
                                         <div class="actions">
                                             <button class="btn btn-cart-sm" onclick="event.stopPropagation(); document.getElementById('cart-form-{{ $product->id }}').submit();">
                                                 <i class="bi bi-cart-plus"></i>
@@ -126,6 +125,7 @@
                                             <form id="cart-form-{{ $product->id }}" method="POST" action="{{ route('add_buscket') }}" class="d-none">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $product->id }}">
+                                                <input type="hidden" name="rental_days" value="1">
                                             </form>
                                         </div>
                                     </div>
@@ -189,7 +189,7 @@
 <style>
 /* Компактный баннер */
 .hero-section-compact {
-    background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
     padding: 60px 0;
     position: relative;
     overflow: hidden;
@@ -239,8 +239,8 @@
 
 .filter-chip:hover,
 .filter-chip.active {
-    background: linear-gradient(135deg, #8e44ad, #9b59b6);
-    border-color: #8e44ad;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    border-color: #3498db;
     color: #fff;
 }
 
@@ -259,7 +259,7 @@
 
 .category-card-modern:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 30px rgba(142, 68, 173, 0.2);
+    box-shadow: 0 12px 30px rgba(39, 174, 96, 0.2);
 }
 
 .category-card-icon {
@@ -293,7 +293,7 @@
     opacity: 0;
     transform: translateX(-10px);
     transition: all 0.3s ease;
-    color: #8e44ad;
+    color: #3498db;
 }
 
 .category-card-modern:hover .category-card-arrow {
@@ -329,19 +329,19 @@
 
 .feature-card-modern:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(142, 68, 173, 0.15);
+    box-shadow: 0 8px 25px rgba(44, 62, 80, 0.1);
 }
 
 .feature-icon-modern {
     width: 80px;
     height: 80px;
     margin: 0 auto 1rem;
-    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+    background: linear-gradient(135deg, #3498db, #2980b9);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
 }
 
 .feature-icon-modern i {

@@ -5,9 +5,9 @@
     <!-- Заголовок -->
     <div class="orders-header mb-5">
         <h1 class="section-title">
-            <i class="bi bi-bag me-3"></i>МОИ ЗАКАЗЫ
+            <i class="bi bi-bag me-3"></i>МОИ АРЕНДЫ
         </h1>
-        <p class="text-muted">История ваших заказов</p>
+        <p class="text-muted">История ваших заявок на аренду</p>
     </div>
 
     @if($orders->isEmpty())
@@ -17,9 +17,9 @@
                 <i class="bi bi-box display-1 text-muted"></i>
             </div>
             <h3 class="mb-3">ЗАКАЗЫ ОТСУТСТВУЮТ</h3>
-            <p class="text-muted mb-4">У вас пока нет оформленных заказов</p>
+            <p class="text-muted mb-4">У вас пока нет оформленных заявок на аренду</p>
             <a href="{{ route('catalog') }}" class="btn btn-primary btn-lg">
-                <i class="bi bi-cart me-2"></i>ПЕРЕЙТИ К ПОКУПКАМ
+                <i class="bi bi-cart me-2"></i>ПЕРЕЙТИ К АРЕНДЕ
             </a>
         </div>
     @else
@@ -78,12 +78,12 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="order-item-quantity">
-                                            {{ $product->quantity }} шт. × {{ number_format($product->unit_price, 0, '', ' ') }} ₽
+                                            {{ $product->quantity }} шт. × {{ number_format($product->unit_price, 0, '', ' ') }} ₽/день × {{ max(1, (int)($product->rental_days ?? 1)) }} дн.
                                         </div>
                                     </div>
                                     <div class="col-md-3 text-end">
                                         <div class="order-item-total">
-                                            {{ number_format($product->quantity * $product->unit_price, 0, '', ' ') }} ₽
+                                            {{ number_format($product->item_total, 0, '', ' ') }} ₽
                                         </div>
                                     </div>
                                 </div>

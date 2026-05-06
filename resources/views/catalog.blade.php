@@ -161,13 +161,13 @@
                                     </small>
                                 </div>
                                 <div class="price-section mt-3">
-                                    <div class="price">{{ number_format($product->price, 0, '', ' ') }} ₽</div>
+                                    <div class="price">{{ number_format($product->price, 0, '', ' ') }} ₽/день</div>
                                     @if($product->in_stock > 0)
                                         <button type="button" class="btn-add-to-cart" 
                                                 data-product-id="{{ $product->id }}"
-                                                title="Добавить в корзину">
+                                                title="Добавить в аренду">
                                             <i class="bi bi-cart-plus"></i>
-                                            <span>В корзину</span>
+                                            <span>В аренду</span>
                                         </button>
                                     @else
                                         <button class="btn-not-available" disabled>
@@ -184,6 +184,7 @@
                         <form method="POST" action="{{ route('add_buscket') }}" class="add-to-cart-form-hidden" id="form-{{ $product->id }}">
                             @csrf
                             <input type="hidden" name="id" value="{{ $product->id }}">
+                            <input type="hidden" name="rental_days" value="1">
                         </form>
                         @endif
                     </div>
@@ -235,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Показываем уведомление об успехе
                     showNotification('success', data.message);
                     this.innerHTML = '<i class="bi bi-check-circle"></i><span>Добавлено!</span>';
-                    this.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+                    this.style.background = 'linear-gradient(135deg, #9b59b6, #9b59b6)';
                     
                     // Обновляем счётчик в хедере
                     updateCartBadge();

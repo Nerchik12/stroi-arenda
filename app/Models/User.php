@@ -52,36 +52,4 @@ class User extends Authenticatable
     {
         return $this->role === 'admin' ? 'Администратор' : 'Пользователь';
     }
-
-    /**
-     * Отзывы пользователя
-     */
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
-
-    /**
-     * Заказы пользователя
-     */
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
-    }
-
-    /**
-     * Товары в корзине
-     */
-    public function cart()
-    {
-        return $this->hasMany(Cart::class);
-    }
-
-    /**
-     * Обратная связь
-     */
-    public function feedback()
-    {
-        return $this->hasMany(Feedback::class);
-    }
 }

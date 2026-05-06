@@ -98,7 +98,7 @@
                         @forelse($recentOrders as $order)
                         <tr>
                             <td><strong>#{{ $order->id }}</strong></td>
-                            <td>{{ $order->user->name ?? 'Неизвестный' }}</td>
+                            <td>{{ $order->user_name ?? 'Неизвестный' }}</td>
                             <td>{{ number_format($order->total_amount, 0, '', ' ') }} ₽</td>
                             <td>
                                 @if($order->status == 'active')
@@ -111,7 +111,7 @@
                                     <span class="badge badge-red">Отменён</span>
                                 @endif
                             </td>
-                            <td>{{ $order->created_at->format('d.m.Y H:i') }}</td>
+                            <td>{{ date('d.m.Y H:i', strtotime($order->created_at)) }}</td>
                         </tr>
                         @empty
                         <tr>
